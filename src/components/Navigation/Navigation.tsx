@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Context from 'context';
 
 import Button from 'components/Button';
+import Modal from 'components/Modal';
 
 import { styles } from '.';
 
@@ -32,9 +33,12 @@ const Navigation: FC = () => {
           {me?.address}
         </Button.Secondary>
       ) : (
-        <Button.Primary onClick={() => connect({ address: '0x0' })}>
-          {t('label.toConnect')}
-        </Button.Primary>
+        <Modal
+          trigger={<Button.Primary>{t('label.toConnect')}</Button.Primary>}
+          onConfirm={() => connect({ address: '0x0' })}
+        >
+          Content
+        </Modal>
       )}
     </header>
   );
