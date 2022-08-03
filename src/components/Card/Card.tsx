@@ -1,4 +1,6 @@
-import styles from './styles';
+import { FC } from 'react';
+
+import { styles } from '.';
 
 interface Props {
   title: string;
@@ -6,7 +8,7 @@ interface Props {
   url: string;
 }
 
-const Card: React.FC<Props> = (props) => {
+const Card: FC<Props> = (props) => {
   const { title, description, url } = props;
 
   return (

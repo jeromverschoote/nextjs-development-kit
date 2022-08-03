@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode, FC } from 'react';
 
-import styles from './styles';
+import { styles } from '.';
 
 interface Props {
   children: string | ReactNode | ReactNode[];
 }
 
-const Title: React.FC<Props> = (props) => {
+const Title: FC<Props> = (props) => {
   const { children } = props;
   return <h1 className={styles.container}>{children}</h1>;
 };

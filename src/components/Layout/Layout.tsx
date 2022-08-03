@@ -1,17 +1,17 @@
-import React, { Fragment, ReactNode } from 'react';
+import React, { Fragment, ReactNode, FC } from 'react';
 import Head from 'next/head';
 
 import META from 'constants/meta';
 
 import Footer from 'components/Footer';
 
-import styles from './styles';
+import { styles } from '.';
 
 interface Props {
   children: ReactNode;
 }
 
-const Layout: React.FC<Props> = (props) => {
+const Layout: FC<Props> = (props) => {
   const { children } = props;
 
   return (

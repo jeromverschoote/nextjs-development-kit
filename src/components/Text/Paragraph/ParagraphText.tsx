@@ -1,14 +1,14 @@
-import { ReactNode } from 'react';
+import { ReactNode, FC } from 'react';
 
-import styles from './styles';
+import { styles } from '.';
 
 interface Props {
   children: string | ReactNode | ReactNode[];
 }
 
-const Paragraph: React.FC<Props> = (props) => {
+const ParagraphText: FC<Props> = (props) => {
   const { children } = props;
   return <h1 className={styles.container}>{children}</h1>;
 };
 
-export default Paragraph;
+export default ParagraphText;

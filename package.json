@@ -1,6 +1,9 @@
 {
-  "name": "next-typescript-template",
-  "private": true,
+  "name": "nextjs-development-kit",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "A kit to easily build, test and deploy web applications.",
+  "author": "Jerom Verschoote",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

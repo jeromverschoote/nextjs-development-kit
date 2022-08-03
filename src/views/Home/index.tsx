@@ -8,7 +8,7 @@ import Text from 'components/Text';
 
 import styles from './styles';
 
-const Home: NextPage = () => {
+const HomeView: NextPage = () => {
   const { t } = useTranslation();
 
   return (
@@ -55,4 +55,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default HomeView;
