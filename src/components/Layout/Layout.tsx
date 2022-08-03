@@ -1,5 +1,5 @@
-import React, { Fragment, ReactNode, FC } from 'react';
 import Head from 'next/head';
+import React, { Fragment, ReactNode, FC } from 'react';
 
 import META from 'constants/meta';
 

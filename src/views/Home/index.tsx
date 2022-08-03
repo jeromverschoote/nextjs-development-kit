@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
-
 import { useTranslation } from 'react-i18next';
 
-import Layout from 'components/Layout';
 import Card from 'components/Card';
+import Layout from 'components/Layout';
 import Text from 'components/Text';
 
 import styles from './styles';
+
+import type { NextPage } from 'next';
 
 const HomeView: NextPage = () => {
   const { t } = useTranslation();
