@@ -12,9 +12,7 @@ declare global {
 export const useMetaMask = (walletContext: WalletContext) => {
   const [client] = useState<null>(null);
 
-  const handleDisconnectClient = () => {
-    console.log('Connect closed.');
-  };
+  const handleDisconnectClient = () => {};
 
   const handleConnectClient = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -40,7 +38,7 @@ export const useMetaMask = (walletContext: WalletContext) => {
           nonce: tx.nonce,
         });
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         result = err;
       }
 
