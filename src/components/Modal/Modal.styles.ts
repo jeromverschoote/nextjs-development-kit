@@ -27,7 +27,7 @@ const styles = {
     container:
       'relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6',
     head: 'hidden sm:block absolute top-0 right-0 pt-4 pr-4',
-    body: '',
+    body: 'mt-10',
     foot: 'mt-5 sm:mt-6',
 
     close: {

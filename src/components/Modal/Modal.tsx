@@ -78,26 +78,28 @@ const Modal: FC<Props> = (props) => {
 
                   <div className={styles.modal.body}>{children}</div>
 
-                  <div className={styles.modal.foot}>
-                    {onConfirm && (
-                      <button
-                        type="button"
-                        className={styles.modal.confirm.button}
-                        onClick={handleClickConfirm}
-                      >
-                        Confirm
-                      </button>
-                    )}
-                    {onCancel && (
-                      <button
-                        type="button"
-                        className={styles.modal.cancel.button}
-                        onClick={handleClickCancel}
-                      >
-                        Cancel
-                      </button>
-                    )}
-                  </div>
+                  {(onConfirm || onCancel) && (
+                    <div className={styles.modal.foot}>
+                      {onConfirm && (
+                        <button
+                          type="button"
+                          className={styles.modal.confirm.button}
+                          onClick={handleClickConfirm}
+                        >
+                          Confirm
+                        </button>
+                      )}
+                      {onCancel && (
+                        <button
+                          type="button"
+                          className={styles.modal.cancel.button}
+                          onClick={handleClickCancel}
+                        >
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

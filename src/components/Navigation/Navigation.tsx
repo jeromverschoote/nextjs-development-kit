@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useWalletConnect } from 'hooks/useWalletConnect';
+
 import Context from 'context';
 
 import Button from 'components/Button';
@@ -12,9 +14,11 @@ import { styles } from '.';
 const Navigation: FC = () => {
   const { t } = useTranslation();
 
-  const { me, connect, disconnect } = useContext(Context.Wallet);
+  const context = useContext(Context.Wallet);
 
-  const isConnected = me !== null;
+  const walletConnect = useWalletConnect(context);
+
+  const isConnected = context?.wallet?.address !== undefined;
 
   return (
     <header className={styles.container}>
@@ -29,15 +33,19 @@ const Navigation: FC = () => {
       </a>
 
       {isConnected ? (
-        <Button.Secondary onClick={() => disconnect()}>
-          {me?.address}
+        <Button.Secondary onClick={context.clear}>
+          {context.wallet?.address}
         </Button.Secondary>
       ) : (
         <Modal
           trigger={<Button.Primary>{t('label.toConnect')}</Button.Primary>}
-          onConfirm={() => connect({ address: '0x0' })}
         >
-          Content
+          <button
+            onClick={walletConnect.connect}
+            className="w-full rounded-md border border-blue-600 hover:bg-white hover:text-blue-600 duration-200 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 sm:text-sm mb-2"
+          >
+            WalletConnect
+          </button>
         </Modal>
       )}
     </header>

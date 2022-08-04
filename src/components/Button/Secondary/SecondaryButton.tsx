@@ -4,7 +4,7 @@ import { styles } from '.';
 
 interface Props {
   children: string | ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const SecondaryButton: FC<Props> = (props) => {

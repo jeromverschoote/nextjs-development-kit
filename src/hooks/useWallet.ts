@@ -1,27 +1,62 @@
 import { useState } from 'react';
 
-export type WalletType = {
-  address: string;
+export type ClientType = {
+  id: string;
+  description?: string;
+  icons?: string[];
+  name?: string;
+  url?: string;
+  ssl?: boolean;
 };
 
-export const useWallet = (): {
-  me: WalletType | null;
-  connect: (wallet: WalletType) => void;
+export type ChainType = {
+  id: string | number;
+};
+
+export type TransactionType = {
+  from: string;
+  type?: string;
+  to?: string;
+  value?: number | string;
+  gas?: number | string;
+  gasLimit?: number | string;
+  gasPrice?: number | string;
+  nonce?: number | string;
+  data?: string;
+};
+
+export type WalletType = {
+  client: ClientType;
+  chain: ChainType;
+  address: string;
+
+  sendTransaction: ((tx: TransactionType) => Promise<any>) | undefined;
+  signTransaction: ((tx: TransactionType) => Promise<any>) | undefined;
+
   disconnect: () => void;
-} => {
+};
+
+export interface WalletContext {
+  wallet: WalletType | null;
+  set: (wallet: WalletType) => void;
+  clear: () => void;
+}
+
+export const useWallet = (): WalletContext => {
   const [wallet, setWallet] = useState<WalletType | null>(null);
 
-  const handleConnectWallet = (wallet: WalletType) => {
+  const handleSetWallet = (wallet: WalletType) => {
     setWallet(wallet);
   };
 
-  const handleDisconnectWallet = () => {
+  const handleClearWallet = () => {
+    wallet?.disconnect();
     setWallet(null);
   };
 
   return {
-    me: wallet,
-    connect: handleConnectWallet,
-    disconnect: handleDisconnectWallet,
+    wallet,
+    set: handleSetWallet,
+    clear: handleClearWallet,
   };
 };
