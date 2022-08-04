@@ -1,4 +1,4 @@
-# Next.js Decentralized Web Application Development Kit
+# Next.js dApp Development Kit
 
 A repo as kit to easily build, test and deploy decentralized web applications.
 
@@ -6,7 +6,7 @@ A repo as kit to easily build, test and deploy decentralized web applications.
 
 ### 1.1 Table of Contents
 
-- [Next.js Decentralized Web Application Development Kit](#nextjs-decentralized-web-application-development-kit)
+- [Next.js dApp Development Kit](#nextjs-dapp-development-kit)
   - [1. Introduction](#1-introduction)
     - [1.1 Table of Contents](#11-table-of-contents)
     - [1.2 Feature List](#12-feature-list)
