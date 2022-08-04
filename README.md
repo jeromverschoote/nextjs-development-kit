@@ -13,7 +13,6 @@ A repo as kit to easily build, test and deploy web applications.
   - [2. Getting Started](#2-getting-started)
     - [2.1 Requirements](#21-requirements)
     - [2.2 Quickstart](#22-quickstart)
-    - [2.3 Building a Decentralized Application](#23-building-a-decentralized-application)
   - [3. Usage](#3-usage)
     - [3.1 Running a Development Server](#31-running-a-development-server)
   - [4. Resources](#4-resources)
@@ -25,7 +24,7 @@ A repo as kit to easily build, test and deploy web applications.
 - Responsive sample components and views.
 - Sample tests covering 100%.
 - CI/CD.
-- Support for building decentralized web applications.
+- Wallet support for MetaMask & WalletConnect.
 
 ## 2. Getting Started
 
@@ -71,14 +70,6 @@ event - compiled client and server successfully in 525 ms (208 modules)
 
 Congratulations, you are now ready to start building a web application!
 
-### 2.3 Building a Decentralized Application
-
-Optionally, you can use this development kit for building decentralized web applications as well. Simply checkout the `web3` branch of this project to include web3 wallet support. For a more detailed features list of web3 technologies, please see the README on the `web3` branch.
-
-```
-git checkout web3
-```
-
 ## 3. Usage
 
 Since this project elevates Hardhat's tools, you can always run `yarn next --help` to check which commands you are able to run. Although, this project is setup to have its own scripts, which will simplify the process of developing contracts. It is recommended to use the scripts provided in this guide.
@@ -107,3 +98,6 @@ event - compiled client and server successfully in 525 ms (208 modules)
 - [Next.js]() - A React framework that greatly improves developer experience.
 - [Tailwind CSS]() - A utility-first CSS framework packed with standardized classes for easy styling.
 - [Vercel]() - Tool to easily integrate continuous integration and development.
+- [MetaMask]() - A crypto wallet client, mainly for desktop users.
+- [WalletConnect]() - A crypto wallet protocol, mainly for mobile users.
+- [ethers.js](https://docs.ethers.io/v5/) - A JavaScript library for interacting with Solidity smart contracts.
