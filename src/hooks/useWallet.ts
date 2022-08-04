@@ -30,8 +30,8 @@ export type WalletType = {
   chain: ChainType;
   address: string;
 
-  sendTransaction: ((tx: TransactionType) => Promise<any>) | undefined;
-  signTransaction: ((tx: TransactionType) => Promise<any>) | undefined;
+  sendTransaction: (tx: TransactionType) => Promise<any>;
+  signTransaction: (tx: TransactionType) => Promise<any>;
 
   disconnect: () => void;
 };

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useMetaMask } from 'hooks/useMetaMask';
 import { useWalletConnect } from 'hooks/useWalletConnect';
 
 import Context from 'context';
@@ -16,7 +17,8 @@ const Navigation: FC = () => {
 
   const context = useContext(Context.Wallet);
 
-  const walletConnect = useWalletConnect(context);
+  const MetaMask = useMetaMask(context);
+  const WalletConnect = useWalletConnect(context);
 
   const isConnected = context?.wallet?.address !== undefined;
 
@@ -40,10 +42,10 @@ const Navigation: FC = () => {
         <Modal
           trigger={<Button.Primary>{t('label.toConnect')}</Button.Primary>}
         >
-          <button
-            onClick={walletConnect.connect}
-            className="w-full rounded-md border border-blue-600 hover:bg-white hover:text-blue-600 duration-200 shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 sm:text-sm mb-2"
-          >
+          <button onClick={MetaMask.connect} className={styles.button}>
+            MetaMask
+          </button>
+          <button onClick={WalletConnect.connect} className={styles.button}>
             WalletConnect
           </button>
         </Modal>

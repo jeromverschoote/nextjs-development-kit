@@ -1,20 +1,17 @@
-import WalletConnect from '@walletconnect/client';
+import Client from '@walletconnect/client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import { useState } from 'react';
 
 import { TransactionType, WalletContext } from 'hooks/useWallet';
 
 export const useWalletConnect = (walletContext: WalletContext) => {
-  const [provider, setProvider] = useState<WalletConnect | null>(null);
+  const [client, setClient] = useState<Client | null>(null);
 
-  const handleSendTransaction = async (
-    provider: WalletConnect,
-    tx: TransactionType,
-  ) => {
+  const handleSendTransaction = async (client: Client, tx: TransactionType) => {
     let result;
 
     try {
-      await provider?.sendTransaction(tx);
+      await client?.sendTransaction(tx);
     } catch (err) {
       result = err;
     }
@@ -22,14 +19,11 @@ export const useWalletConnect = (walletContext: WalletContext) => {
     return result;
   };
 
-  const handleSignTransaction = async (
-    provider: WalletConnect,
-    tx: TransactionType,
-  ) => {
+  const handleSignTransaction = async (client: Client, tx: TransactionType) => {
     let result;
 
     try {
-      await provider?.signTransaction(tx);
+      await client?.signTransaction(tx);
     } catch (err) {
       result = err;
     }
@@ -38,115 +32,61 @@ export const useWalletConnect = (walletContext: WalletContext) => {
   };
 
   const handleDisconnectProvider = () => {
-    if (!provider) {
+    if (!client) {
       return;
     }
 
-    provider.killSession();
-    setProvider(null);
+    client.killSession();
+    setClient(null);
   };
 
-  provider?.on('connect', (error, payload) => {
-    if (error) {
-      throw error;
-    }
-
-    const wallet = {
-      chain: {
-        id: payload.params[0]?.chainId,
-      },
-      address: payload.params[0]?.accounts?.[0],
-      client: {
-        id: payload.params[0]?.peerId,
-        ...provider?.peerMeta,
-      },
-      sendTransaction: (tx: TransactionType) =>
-        handleSendTransaction(provider, tx),
-      signTransaction: (tx: TransactionType) =>
-        handleSignTransaction(provider, tx),
-      disconnect: handleDisconnectProvider,
-    };
-
-    walletContext.set(wallet);
-  });
-
-  provider?.on('session_update', (error, payload) => {
-    if (error) {
-      throw error;
-    }
-
-    const wallet = {
-      chain: {
-        id: payload.params[0]?.chainId,
-      },
-      address: payload.params[0]?.accounts?.[0],
-      client: {
-        id: payload.params[0]?.peerId,
-        ...provider?.peerMeta,
-      },
-      sendTransaction: (tx: TransactionType) =>
-        handleSendTransaction(provider, tx),
-      signTransaction: (tx: TransactionType) =>
-        handleSignTransaction(provider, tx),
-      disconnect: handleDisconnectProvider,
-    };
-
-    walletContext.set(wallet);
-  });
-
-  provider?.on('disconnect', (error) => {
-    if (error) {
-      throw error;
-    }
-  });
-
-  const handleConnectProvider = () => {
-    if (provider) {
-      if (!provider.connected) {
-        provider.createSession();
+  const handleConnectClient = () => {
+    if (client) {
+      if (!client.connected) {
+        client.createSession();
       } else {
         const wallet = {
           chain: {
-            id: provider?.chainId,
+            id: client?.chainId,
           },
-          address: provider?.accounts?.[0],
+          address: client?.accounts?.[0],
           client: {
-            id: provider?.clientId,
-            ...provider?.clientMeta,
+            id: client?.clientId,
+            ...client?.clientMeta,
           },
           sendTransaction: (tx: TransactionType) =>
-            handleSendTransaction(provider, tx),
+            handleSendTransaction(client, tx),
           signTransaction: (tx: TransactionType) =>
-            handleSignTransaction(provider, tx),
+            handleSignTransaction(client, tx),
           disconnect: handleDisconnectProvider,
         };
 
         walletContext.set(wallet);
       }
     } else {
-      const newProvider = new WalletConnect({
+      const client = new Client({
         bridge: 'https://bridge.walletconnect.org',
         qrcodeModal: QRCodeModal,
       });
 
-      setProvider(newProvider);
+      setClient(client);
 
-      if (!newProvider.connected) {
-        newProvider.createSession();
+      if (!client.connected) {
+        client.createSession();
       } else {
         const wallet = {
           chain: {
-            id: newProvider?.chainId,
+            id: client?.chainId,
           },
-          address: newProvider?.accounts?.[0],
+          address: client?.accounts?.[0],
           client: {
-            id: newProvider?.clientId,
-            ...newProvider?.clientMeta,
+            id: client?.clientId,
+            ...client?.clientMeta,
           },
           sendTransaction: (tx: TransactionType) =>
-            handleSendTransaction(newProvider, tx),
+            handleSendTransaction(client, tx),
           signTransaction: (tx: TransactionType) =>
-            handleSignTransaction(newProvider, tx),
+            handleSignTransaction(client, tx),
           disconnect: handleDisconnectProvider,
         };
 
@@ -155,9 +95,63 @@ export const useWalletConnect = (walletContext: WalletContext) => {
     }
   };
 
+  client?.on('connect', (error, payload) => {
+    if (error) {
+      throw error;
+    }
+
+    const wallet = {
+      chain: {
+        id: payload.params[0]?.chainId,
+      },
+      address: payload.params[0]?.accounts?.[0],
+      client: {
+        id: payload.params[0]?.peerId,
+        ...client?.peerMeta,
+      },
+      sendTransaction: (tx: TransactionType) =>
+        handleSendTransaction(client, tx),
+      signTransaction: (tx: TransactionType) =>
+        handleSignTransaction(client, tx),
+      disconnect: handleDisconnectProvider,
+    };
+
+    walletContext.set(wallet);
+  });
+
+  client?.on('session_update', (error, payload) => {
+    if (error) {
+      throw error;
+    }
+
+    const wallet = {
+      chain: {
+        id: payload.params[0]?.chainId,
+      },
+      address: payload.params[0]?.accounts?.[0],
+      client: {
+        id: payload.params[0]?.peerId,
+        ...client?.peerMeta,
+      },
+      sendTransaction: (tx: TransactionType) =>
+        handleSendTransaction(client, tx),
+      signTransaction: (tx: TransactionType) =>
+        handleSignTransaction(client, tx),
+      disconnect: handleDisconnectProvider,
+    };
+
+    walletContext.set(wallet);
+  });
+
+  client?.on('disconnect', (error) => {
+    if (error) {
+      throw error;
+    }
+  });
+
   return {
-    provider,
-    connect: handleConnectProvider,
+    client,
+    connect: handleConnectClient,
     disconnect: handleDisconnectProvider,
   };
 };
