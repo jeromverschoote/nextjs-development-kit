@@ -24,7 +24,7 @@ A repo as kit to easily build, test and deploy decentralized web applications.
 - Responsive sample components and views.
 - Sample tests covering 100%.
 - CI/CD.
-- Wallet support for MetaMask & WalletConnect.
+- Wallet support for MetaMask, WalletConnect & Venly Wallet.
 
 ## 2. Getting Started
 
@@ -94,10 +94,11 @@ event - compiled client and server successfully in 525 ms (208 modules)
 
 ## 4. Resources
 
-- [React]() - A JavaScript library for building user interfaces.
-- [Next.js]() - A React framework that greatly improves developer experience.
-- [Tailwind CSS]() - A utility-first CSS framework packed with standardized classes for easy styling.
-- [Vercel]() - Tool to easily integrate continuous integration and development.
-- [MetaMask]() - A crypto wallet client, mainly for desktop users.
-- [WalletConnect]() - A crypto wallet protocol, mainly for mobile users.
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- [Next.js](https://nextjs.org/) - A React framework that greatly improves developer experience.
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework packed with standardized classes for easy styling.
+- [Vercel](https://vercel.com/) - Tool to easily integrate continuous integration and development.
+- [MetaMask](https://metamask.io/) - A crypto wallet client, mainly for desktop users.
+- [WalletConnect](https://walletconnect.com/) - A crypto wallet protocol, mainly for mobile users.
+- [Venly Wallet](https://www.venly.io/) - A crypto wallet solution.
 - [ethers.js](https://docs.ethers.io/v5/) - A JavaScript library for interacting with Solidity smart contracts.

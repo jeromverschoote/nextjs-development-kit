@@ -3,6 +3,7 @@ import { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useMetaMask } from 'hooks/useMetaMask';
+import { useVenlyWallet } from 'hooks/useVenlyWallet';
 import { useWalletConnect } from 'hooks/useWalletConnect';
 
 import Context from 'context';
@@ -19,6 +20,7 @@ const Navigation: FC = () => {
 
   const MetaMask = useMetaMask(context);
   const WalletConnect = useWalletConnect(context);
+  const VenlyWallet = useVenlyWallet(context);
 
   const isConnected = context?.wallet?.address !== undefined;
 
@@ -47,6 +49,9 @@ const Navigation: FC = () => {
           </button>
           <button onClick={WalletConnect.connect} className={styles.button}>
             WalletConnect
+          </button>
+          <button onClick={VenlyWallet.connect} className={styles.button}>
+            Venly Wallet
           </button>
         </Modal>
       )}
