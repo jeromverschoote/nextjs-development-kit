@@ -5,6 +5,7 @@ import { initReactI18next } from 'react-i18next';
 
 import enUS from 'translations/en-US/index.json';
 
+import { useNotification } from 'hooks/useNotification';
 import { useWallet } from 'hooks/useWallet';
 
 import Context from 'context';
@@ -26,10 +27,13 @@ i18n.use(initReactI18next).init({
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const wallet = useWallet();
+  const notification = useNotification();
 
   return (
     <Context.Wallet.Provider value={wallet}>
-      <Component {...pageProps} />;
+      <Context.Notifications.Provider value={notification}>
+        <Component {...pageProps} />;
+      </Context.Notifications.Provider>
     </Context.Wallet.Provider>
   );
 };

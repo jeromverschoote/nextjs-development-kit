@@ -17,11 +17,25 @@ const Navigation: FC = () => {
   const { t } = useTranslation();
 
   const context = useContext(Context.Wallet);
+  const notifications = useContext(Context.Notifications);
 
-  const MetaMask = useMetaMask(context);
-  const WalletConnect = useWalletConnect(context);
-  const VenlyWallet = useVenlyWallet(context);
+  const options = {
+    context,
+    notifications,
+    chain: {
+      id: 80001,
+      name: 'Polygon Mumbai',
+    },
+  };
 
+  const MetaMask = useMetaMask(options);
+  const WalletConnect = useWalletConnect(options);
+  const VenlyWallet = useVenlyWallet(options);
+
+  const isConnecting =
+    MetaMask.isConnecting ||
+    WalletConnect.isConnecting ||
+    VenlyWallet.isConnecting;
   const isConnected = context?.wallet?.address !== undefined;
 
   return (
@@ -44,13 +58,25 @@ const Navigation: FC = () => {
         <Modal
           trigger={<Button.Primary>{t('label.toConnect')}</Button.Primary>}
         >
-          <button onClick={MetaMask.connect} className={styles.button}>
+          <button
+            onClick={MetaMask.connect}
+            className={styles.button}
+            disabled={isConnecting}
+          >
             MetaMask
           </button>
-          <button onClick={WalletConnect.connect} className={styles.button}>
+          <button
+            onClick={WalletConnect.connect}
+            className={styles.button}
+            disabled={isConnecting}
+          >
             WalletConnect
           </button>
-          <button onClick={VenlyWallet.connect} className={styles.button}>
+          <button
+            onClick={VenlyWallet.connect}
+            className={styles.button}
+            disabled={isConnecting}
+          >
             Venly Wallet
           </button>
         </Modal>

@@ -1,3 +1,4 @@
+import { Bytes } from 'ethers';
 import { useState } from 'react';
 
 export type ClientType = {
@@ -11,6 +12,7 @@ export type ClientType = {
 
 export type ChainType = {
   id: string | number;
+  name?: string;
 };
 
 export type TransactionType = {
@@ -28,10 +30,17 @@ export type TransactionType = {
 export type WalletType = {
   client: ClientType;
   chain: ChainType;
+
   address: string;
+  balance?: number | string;
+  feeData?: any;
+  gasPrice?: number | string;
+  transactionCount?: number;
 
   sendTransaction: (tx: TransactionType) => Promise<any>;
-  signTransaction: (tx: TransactionType) => Promise<any>;
+  signMessage: (
+    message: (any | Bytes | string) | (any | Bytes | string)[],
+  ) => Promise<any>;
 
   disconnect: () => void;
 };

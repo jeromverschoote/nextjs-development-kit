@@ -1,7 +1,20 @@
-import { ethers } from 'ethers';
-import { useState } from 'react';
+import { Bytes, ethers } from 'ethers';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { TransactionType, WalletContext, WalletType } from 'hooks/useWallet';
+import { NotificationContextType } from 'context/Notifications';
+
+import { ProviderRpcErrorEnum } from 'enums/ProviderRpcErrorEnum';
+
+import { ProviderRpcErrorType } from 'types/ProviderRpcErrorType';
+
+import {
+  ChainType,
+  TransactionType,
+  WalletContext,
+  WalletType,
+} from 'hooks/useWallet';
 
 declare global {
   interface Window {
@@ -9,24 +22,60 @@ declare global {
   }
 }
 
-export const useMetaMask = (walletContext: WalletContext) => {
-  const [client] = useState<null>(null);
+interface Options {
+  context: WalletContext;
+  notifications: NotificationContextType;
+  chain: ChainType;
+}
 
-  const handleDisconnectClient = () => {};
+export const useMetaMask = (options: Options) => {
+  const { reload } = useRouter();
+  const { t } = useTranslation();
+
+  const [provider, setProvider] = useState<any | null>(null);
+
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const handleDisconnectClient = async () => {
+    options.notifications.create({
+      id: 'meta-mask-disconnect-success',
+      title: 'Successfully disconnected wallet.',
+      type: 'success',
+    });
+  };
 
   const handleConnectClient = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    setIsConnecting(true);
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
 
     await provider.send('eth_requestAccounts', []);
 
     const signer = provider.getSigner();
 
-    const chainId = await signer.getChainId();
     const address = await signer.getAddress();
+    const balance = Number(
+      await ethers.utils.formatEther(await signer.getBalance()),
+    );
+    const chainId = await signer.getChainId();
+
+    if (chainId !== options.chain.id) {
+      setIsConnecting(false);
+      return options.notifications.create({
+        id: 'meta-mask-connect-error',
+        title: 'Failed connecting wallet.',
+        description: t('provider.error.chainDisconnected'),
+        type: 'error',
+      });
+    }
+
+    const feeData = await signer.getFeeData();
+    const gasPrice = Number(
+      await ethers.utils.formatEther(await signer.getGasPrice()),
+    );
+    const transactionCount = await signer.getTransactionCount();
 
     const handleSendTransaction = async (tx: TransactionType) => {
-      let result;
-
       try {
         await signer.sendTransaction({
           from: tx.from,
@@ -37,12 +86,27 @@ export const useMetaMask = (walletContext: WalletContext) => {
           value: tx.value,
           nonce: tx.nonce,
         });
-      } catch (err) {
-        // console.log(err);
-        result = err;
+      } catch (err: ProviderRpcErrorType | any) {
+        options.notifications.create({
+          id: 'meta-mask-send-error',
+          title: 'Failed sending transaction!',
+          description: t(ProviderRpcErrorEnum[err.code.toString()]),
+          type: 'error',
+        });
       }
+    };
 
-      return result;
+    const handleSignMessage = async (message: Bytes | string) => {
+      try {
+        await signer.signMessage(message);
+      } catch (err: ProviderRpcErrorType | any) {
+        options.notifications.create({
+          id: 'meta-mask-sign-error',
+          title: 'Failed signing message!',
+          description: t(ProviderRpcErrorEnum[err.code.toString()]),
+          type: 'error',
+        });
+      }
     };
 
     const wallet: WalletType = {
@@ -54,23 +118,51 @@ export const useMetaMask = (walletContext: WalletContext) => {
         url: 'https://metamask.io/',
         ssl: false,
       },
+
       chain: {
         id: chainId,
       },
+
       address,
+      balance,
+      feeData,
+      gasPrice,
+      transactionCount,
 
       sendTransaction: handleSendTransaction,
-      signTransaction: handleSendTransaction,
+      signMessage: handleSignMessage,
 
       disconnect: handleDisconnectClient,
     };
 
-    walletContext.set(wallet);
+    setProvider(provider);
+    options.context.set(wallet);
+
+    setIsConnecting(false);
+
+    options.notifications.create({
+      id: 'meta-mask-connect-success',
+      title: 'Successfully connected wallet.',
+      type: 'success',
+    });
   };
 
+  useEffect(() => {
+    window.ethereum.on('chainChanged', () => {
+      options.notifications.create({
+        id: 'meta-mask-change-info',
+        title: 'Change in network detected.',
+        description: 'Refreshing page...',
+        type: 'info',
+      });
+      reload();
+    });
+  }, [options.notifications, reload]);
+
   return {
-    client,
+    client: provider,
     connect: handleConnectClient,
     disconnect: handleDisconnectClient,
+    isConnecting,
   };
 };

@@ -74,8 +74,41 @@
         "deploy": {
           "title": "Deploy",
           "description": "Instantly deploy your Next.js site to a public URL with Vercel."
+        },
+        "sign": {
+          "title": "Sign",
+          "description": "Trigger signing a message with your wallet to authenticate off-chain operations."
+        },
+        "send": {
+          "title": "Send",
+          "description": "Trigger a send transaction to easily send funds to another wallet."
         }
       }
+    }
+  },
+  "provider": {
+    "error": {
+      "general": "Action failed to execute.",
+      "invalidInput": "It seems that the action was badly requested. Please contact an administrator if the problem persists.",
+      "resourceNotFound": "It seems that the smart contract was not found. Please contact an administrator if the problem persist.",
+      "resourceUnavailable": "It seems that the smart contract is unavailable. Please contact an administrator if the problem persists.",
+      "transactionRejected": "The transaction was rejected. Please check your wallet balance and try again.",
+      "methodNotSupported": "It seems that the requested action is not supported by the smart contract. Please contact an administrator if the problem persists.",
+      "limitExceeded": "The contract receives too many requests at the moment. Please try again later.",
+      "jsonVersionNotSupported": "It seems the provider is not up to date. Please contact an administrator if the problem persists.",
+      "invalidRequest": "It seems the data provided is invalid. Please contact an administrator if the problem persists.",
+      "methodNotFound": "It seems that the requested action does not exist on the smart contract. Please contact an administrator if the problem persists.",
+      "invalidParams": "It seems that the requested action receives the wrong data. Please contact administrator if the problem persists.",
+      "internalError": "There was an internal error. Please contact an administrator if the problem persists.",
+      "parseError": "It seems that the requested action receives the invalid data. Please contact an administrator if the problem persists.",
+      "userRejectedRequest": "The action was canceled by the user.",
+      "unauthorized": "It seems that you are not authorized to perform this action. Please connect your wallet and try again.",
+      "unsupportedMethod": "It seems that your wallet provider does not support this action. Please connect trough another provider and try again.",
+      "disconnected": "It seems you are not connected. Please connect a wallet and try again.",
+      "chainDisconnected": "It seems you are connected to the wrong network. Please connect to the correct network and try again."
+    },
+    "success": {
+      "general": "Action successfully executed."
     }
   }
 }

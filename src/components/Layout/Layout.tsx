@@ -5,6 +5,7 @@ import META from 'constants/meta';
 
 import Footer from 'components/Footer';
 import Navigation from 'components/Navigation';
+import Notifications from 'components/Notifications';
 
 import { styles } from '.';
 
@@ -44,9 +45,11 @@ const Layout: FC<Props> = (props) => {
         {/* Bots */}
         <meta key="robots" name="robots" content="index, follow" />
       </Head>
-      <Navigation />
-      <main className={styles.container}>{children}</main>
-      <Footer />
+      <Notifications>
+        <Navigation />
+        <main className={styles.container}>{children}</main>
+        <Footer />
+      </Notifications>
     </Fragment>
   );
 };
