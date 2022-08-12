@@ -168,6 +168,16 @@ export const useMetaMask = (options: Options) => {
       });
       reload();
     });
+
+    window?.ethereum?.on('accountsChanged', () => {
+      options.notifications.create({
+        id: 'meta-mask-change-info',
+        title: 'Detected an account change.',
+        description: 'Refreshing page...',
+        type: 'info',
+      });
+      reload();
+    });
   }, [options.notifications, reload]);
 
   return {
