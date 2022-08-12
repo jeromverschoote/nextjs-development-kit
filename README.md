@@ -19,6 +19,7 @@ A repo as kit to easily build, test and deploy decentralized web applications.
 
 ### 1.2 Feature List
 
+- Features from `main` branch.
 - Interacting with smart contracts, sending funds and signing messages via MetMask for desktop wallets.
 - Interacting with smart contracts, sending funds and signing messages via WalletConnect for mobile wallets.
 - Interacting with smart contracts, sending funds and signing messages via Venly Wallet for email based wallets.
