@@ -19,12 +19,15 @@ A repo as kit to easily build, test and deploy decentralized web applications.
 
 ### 1.2 Feature List
 
-- Linter for TypeScript.
-- Auto-formatter for TypeScript.
-- Responsive sample components and views.
-- Sample tests covering 100%.
-- CI/CD.
-- Wallet support for MetaMask, WalletConnect & Venly Wallet.
+- Interacting with smart contracts, sending funds and signing messages via MetMask for desktop wallets.
+- Interacting with smart contracts, sending funds and signing messages via WalletConnect for mobile wallets.
+- Interacting with smart contracts, sending funds and signing messages via Venly Wallet for email based wallets.
+- Disabled connect buttons while connecting, to prevent unintended transactions.
+- Automatic refresh when a network or account changes, to prevent unintended transactions.
+- Error notifications with human readable error messages.
+- Success notifications to confirm user actions.
+- Dummy sign button for easily testing a sign action.
+- Dummy transaction button for easily testing a transaction action.
 
 ## 2. Getting Started
 
