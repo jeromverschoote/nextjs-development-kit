@@ -63,8 +63,10 @@ export const useVenlyWallet = (options: Options) => {
   const handleConnectClient = async () => {
     setIsConnecting(true);
 
+    let client: any;
+
     try {
-      const client: any = await Venly.createProviderEngine({
+      client = await Venly.createProviderEngine({
         clientId: 'Arketype',
         skipAuthentication: false,
         environment: 'staging',
