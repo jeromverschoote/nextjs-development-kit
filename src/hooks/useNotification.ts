@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { NotificationType } from 'types/Notification';
 
@@ -33,15 +33,6 @@ export const useNotification = (): ContextType => {
   const handleClearNotifications = () => {
     setNotifications([]);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (notifications.length > 0) {
-        handleDeleteNotification(notifications?.[0]?.id);
-      }
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [handleDeleteNotification, notifications]);
 
   return {
     notifications,

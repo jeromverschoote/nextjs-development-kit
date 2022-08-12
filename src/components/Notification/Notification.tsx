@@ -60,6 +60,10 @@ const Notification: React.FC<Props> = (props) => {
     return result;
   }, [type]);
 
+  setTimeout(() => {
+    setShow(false);
+  }, 3500);
+
   return (
     <Transition
       show={show}

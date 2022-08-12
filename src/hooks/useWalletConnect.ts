@@ -28,7 +28,7 @@ export const useWalletConnect = (options: Options) => {
     } catch (err) {
       options.notifications.create({
         id: 'wallet-connect-send-error',
-        title: 'Failed sending transaction!',
+        title: 'Failed sending transaction.',
         description: t('provider.error.general'),
         type: 'error',
       });
@@ -44,6 +44,25 @@ export const useWalletConnect = (options: Options) => {
   //   return hex;
   // };
 
+  const handleSyncProviderWithContext = (client: any) => {
+    const wallet = {
+      chain: {
+        id: client?.chainId,
+      },
+      address: client?.accounts?.[0],
+      client: {
+        id: client?.clientId,
+        ...client?.clientMeta,
+      },
+      sendTransaction: (tx: TransactionType) =>
+        handleSendTransaction(client, tx),
+      signMessage: (message: string) => handleSignMessage(client, message),
+      disconnect: handleDisconnectProvider,
+    };
+
+    options.context.set(wallet);
+  };
+
   const handleSignMessage = async (client: Client, message: string) => {
     // @TODO: Hex message?
     const msgParams = [message, client?.accounts?.[0]];
@@ -53,7 +72,7 @@ export const useWalletConnect = (options: Options) => {
     } catch (err) {
       options.notifications.create({
         id: 'wallet-connect-sign-error',
-        title: 'Failed signing message!',
+        title: 'Failed signing message.',
         description: t('provider.error.general'),
         type: 'error',
       });
@@ -77,36 +96,13 @@ export const useWalletConnect = (options: Options) => {
   const handleConnectClient = () => {
     setIsConnecting(true);
 
-    if (client) {
-      if (!client.connected) {
-        client.createSession();
-      } else {
-        const wallet = {
-          chain: {
-            id: client?.chainId,
-          },
-          address: client?.accounts?.[0],
-          client: {
-            id: client?.clientId,
-            ...client?.clientMeta,
-          },
-          sendTransaction: (tx: TransactionType) =>
-            handleSendTransaction(client, tx),
-          signMessage: (message: string) => handleSignMessage(client, message),
-          disconnect: handleDisconnectProvider,
-        };
-
-        options.context.set(wallet);
-      }
-    } else {
+    if (!client) {
       const client = new Client({
         bridge: 'https://bridge.walletconnect.org',
         qrcodeModal: QRCodeModal,
       });
 
-      setClient(client);
-
-      if (client?.chainId !== options.chain.id) {
+      if (client?.chainId !== options.chain.id && client?.chainId !== 0) {
         setIsConnecting(false);
         return options.notifications.create({
           id: 'wallet-connect-connect-success',
@@ -116,58 +112,45 @@ export const useWalletConnect = (options: Options) => {
         });
       }
 
+      setClient(client);
+
       if (!client.connected) {
         client.createSession();
-      } else {
-        const wallet = {
-          chain: {
-            id: client?.chainId,
-          },
-          address: client?.accounts?.[0],
-          client: {
-            id: client?.clientId,
-            ...client?.clientMeta,
-          },
-          sendTransaction: (tx: TransactionType) =>
-            handleSendTransaction(client, tx),
-          signMessage: (message: string) => handleSignMessage(client, message),
-          disconnect: handleDisconnectProvider,
-        };
-
-        options.context.set(wallet);
+        return setIsConnecting(false);
       }
+
+      handleSyncProviderWithContext(client);
+      setIsConnecting(false);
+
+      return options.notifications.create({
+        id: 'wallet-connect-connect-success',
+        title: 'Successfully connected wallet.',
+        type: 'success',
+      });
     }
 
-    setIsConnecting(false);
+    if (!client.connected) {
+      const prov = new Client({
+        bridge: 'https://bridge.walletconnect.org',
+        qrcodeModal: QRCodeModal,
+      });
 
-    options.notifications.create({
-      id: 'wallet-connect-connect-success',
-      title: 'Successfully connected wallet.',
-      type: 'success',
-    });
+      prov.createSession();
+
+      setClient(prov);
+
+      return setIsConnecting(false);
+    }
+
+    handleSyncProviderWithContext(client);
   };
 
-  client?.on('connect', (error, payload) => {
+  client?.on('connect', (error, _payload) => {
     if (error) {
       throw error;
     }
 
-    const wallet = {
-      chain: {
-        id: payload.params[0]?.chainId,
-      },
-      address: payload.params[0]?.accounts?.[0],
-      client: {
-        id: payload.params[0]?.peerId,
-        ...client?.peerMeta,
-      },
-      sendTransaction: (tx: TransactionType) =>
-        handleSendTransaction(client, tx),
-      signMessage: (message: string) => handleSignMessage(client, message),
-      disconnect: handleDisconnectProvider,
-    };
-
-    options.context.set(wallet);
+    handleSyncProviderWithContext(client);
   });
 
   client?.on('session_update', (error, payload) => {
@@ -181,7 +164,7 @@ export const useWalletConnect = (options: Options) => {
     if (hasChangedNetwork) {
       options.notifications.create({
         id: 'wallet-connect-change-info',
-        title: 'Change in network detected.',
+        title: 'Detected a network change.',
         description: 'Refreshing page...',
         type: 'info',
       });

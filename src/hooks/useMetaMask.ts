@@ -47,6 +47,17 @@ export const useMetaMask = (options: Options) => {
   const handleConnectClient = async () => {
     setIsConnecting(true);
 
+    if (!window?.ethereum) {
+      setIsConnecting(false);
+      return options.notifications.create({
+        id: 'meta-mask-connect-error',
+        title: 'Failed connecting wallet.',
+        description:
+          'It seems you have not installed MetaMask. Please install MetaMask and try again.',
+        type: 'error',
+      });
+    }
+
     const provider = new ethers.providers.Web3Provider(window?.ethereum);
 
     await provider.send('eth_requestAccounts', []);
@@ -89,7 +100,7 @@ export const useMetaMask = (options: Options) => {
       } catch (err: ProviderRpcErrorType | any) {
         options.notifications.create({
           id: 'meta-mask-send-error',
-          title: 'Failed sending transaction!',
+          title: 'Failed sending transaction.',
           description: t(ProviderRpcErrorEnum[err.code.toString()]),
           type: 'error',
         });
@@ -102,7 +113,7 @@ export const useMetaMask = (options: Options) => {
       } catch (err: ProviderRpcErrorType | any) {
         options.notifications.create({
           id: 'meta-mask-sign-error',
-          title: 'Failed signing message!',
+          title: 'Failed signing message.',
           description: t(ProviderRpcErrorEnum[err.code.toString()]),
           type: 'error',
         });
@@ -148,10 +159,10 @@ export const useMetaMask = (options: Options) => {
   };
 
   useEffect(() => {
-    window.ethereum.on('chainChanged', () => {
+    window?.ethereum?.on('chainChanged', () => {
       options.notifications.create({
         id: 'meta-mask-change-info',
-        title: 'Change in network detected.',
+        title: 'Detected a network change.',
         description: 'Refreshing page...',
         type: 'info',
       });

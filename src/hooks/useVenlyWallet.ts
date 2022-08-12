@@ -63,14 +63,28 @@ export const useVenlyWallet = (options: Options) => {
   const handleConnectClient = async () => {
     setIsConnecting(true);
 
-    const client: any = await Venly.createProviderEngine({
-      clientId: 'Arketype',
-      skipAuthentication: false,
-      environment: 'staging',
-      secretType: SecretType.MATIC,
-    });
+    try {
+      const client: any = await Venly.createProviderEngine({
+        clientId: 'Arketype',
+        skipAuthentication: false,
+        environment: 'staging',
+        secretType: SecretType.MATIC,
+      });
 
-    setClient(client);
+      setClient(client);
+    } catch (err) {
+      setIsConnecting(false);
+      options.notifications.create({
+        id: 'venly-connect-error',
+        title: 'Failed connecting wallet.',
+        description: t('provider.error.userRejectedRequest'),
+        type: 'error',
+      });
+    }
+
+    if (!client) {
+      return;
+    }
 
     const provider = new ethers.providers.Web3Provider(client);
 
