@@ -181,13 +181,13 @@ Now your application is deployed using Vercel, updates will automatically be upl
 
 ## 4. Resources
 
-- [React]() - A JavaScript library for building user interfaces.
-- [Next.js]() - A React framework that greatly improves developer experience.
-- [Tailwind CSS]() - A utility-first CSS framework packed with standardized classes for easy styling.
+- [React](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- [Next.js](https://nextjs.org/) - A React framework that greatly improves developer experience.
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework packed with standardized classes for easy styling.
 - [Tailwind UI]() - A library with pre-build and styled responsive components.
 - [Jest]() - A framework for writing unit tests.
 - [React Testing Library]() - A library for integrating jest tests into React components.
-- [Vercel]() - Tool to easily integrate continuous integration and development.
+- [Vercel](https://vercel.com/) - Tool to easily integrate continuous
 
 ---
 
