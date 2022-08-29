@@ -1,20 +1,9 @@
 import Image from 'next/image';
-import { FC, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import Context from 'context';
-
-import Button from 'components/Button';
+import { FC } from 'react';
 
 import { styles } from '.';
 
 const Navigation: FC = () => {
-  const { t } = useTranslation();
-
-  const { me, connect, disconnect } = useContext(Context.Wallet);
-
-  const isConnected = me !== null;
-
   return (
     <header className={styles.container}>
       <a
@@ -26,16 +15,6 @@ const Navigation: FC = () => {
           <Image src="/vercel.svg" alt="Vercel Logo" width={100} height={24} />
         </span>
       </a>
-
-      {isConnected ? (
-        <Button.Secondary onClick={() => disconnect()}>
-          {me?.address}
-        </Button.Secondary>
-      ) : (
-        <Button.Primary onClick={() => connect({ address: '0x0' })}>
-          {t('label.toConnect')}
-        </Button.Primary>
-      )}
     </header>
   );
 };

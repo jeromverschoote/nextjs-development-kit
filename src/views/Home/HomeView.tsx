@@ -4,7 +4,7 @@ import Card from 'components/Card';
 import Layout from 'components/Layout';
 import Text from 'components/Text';
 
-import styles from './styles';
+import { styles } from '.';
 
 import type { NextPage } from 'next';
 
