@@ -141,7 +141,11 @@ Now, in a browser visit `http://localhost:3001` to view your application. Note t
 
 ### 3.4 Testing your Application Code
 
-To prevent errors in your builds, it is wise to write unit tests to filter out bugs in your component's logic. These tests are located in component folders, and are written in [Jest](https://jestjs.io/) using [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/). As for now, only unit tests are supported.
+To prevent errors in your builds, it is wise to write unit tests to filter out bugs in your component's logic. These tests are located in component folders, and are written in [Jest](https://jestjs.io/) using [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/). As for now, only unit tests are supported. You can run your tests using:
+
+```
+yarn test
+```
 
 ### 3.5 Checking Test Coverage
 
@@ -172,6 +176,7 @@ Once your application is build and tested, it is ready to be deployed to the int
 Additionally, in the project settings you can link domains to alter the hyperlink for your project.
 
 ### 3.8 Updating your Application
+
 Now your application is deployed using Vercel, updates will automatically be uploaded to your deployed application when you push new code to your GitHub repository. You're all set and done!
 
 ## 4. Resources
